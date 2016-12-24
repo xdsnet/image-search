@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Image Search Abstraction Layer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+    <body>
+        <div class="container">
+            <h1 class="header">
+                API基本调用: 图片搜索微服务(Image Search Abstraction Layer)
+            </h1>
+            <blockquote>
+                使用场景:
+                <ul>调用接口<code>api/imagesearch/&lt;要搜索的字符串&gt;[/]</code>调用服务,将以<code>要搜索的字符串</code>在网上搜索相关图片，返回<code>JSON</code>格式的图片信息数据。</ul>
+                <ul>调用接口<code>api/imagesearch/&lt;要搜索的字符串&gt;/&lt;第n页&gt</code>调用服务,将以<code>要搜索的字符串</code>在网上搜索相关图片，返回<code>第n页</code>的<code>JSON</code>格式的图片信息数据。</ul>
+                <ul>调用接口<code>api/latest</code>，将以<code>JSON</code>返回最近10次搜索的情况。</ul>
+            </blockquote>
+            <h3>调用样例1:</h3>
+            <code><%=serverHost %>api/imagesearch/cat</code>
+            <h3>样例输出(略):</h3>
+            <hr/>
+            <h3>调用样例2:</h3>
+            <code><%=serverHost %>api/imagesearch/cat/10</code>
+            <h3>样例输出(略):</h3>
+            <h3>调用样例3:</h3>
+            <code><%=serverHost %>api/latest</code>
+            <h3>样例输出(略):</h3>
+        </div>
+</body>
+</html>
