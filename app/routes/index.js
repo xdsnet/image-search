@@ -115,7 +115,7 @@ app.route('/api/latest')
 
     //all other get request will result in 400 error
     app.use(function(req, res){
-        res.redirect('301','/');
+        res.redirect('/');
     });
 
 
