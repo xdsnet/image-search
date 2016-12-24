@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xdsnet/xdsisearch.git"
+    "url": "git+https://github.com/xdsnet/image-search.git"
   },
   "keywords": [
     "express"
@@ -17,9 +17,9 @@
   "author": "xdsnet",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xdsnet/xdsisearch/issues"
+    "url": "https://github.com/xdsnet/image-search/issues"
   },
-  "homepage": "https://github.com/xdsnet/xdsisearch#readme",
+  "homepage": "https://github.com/xdsnet/image-search#readme",
   "dependencies": {
     "bing.search": "^1.0.1",
     "dotenv": "^2.0.0",
