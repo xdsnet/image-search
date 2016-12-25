@@ -54,9 +54,9 @@ app.route('/api/imagesearch/:sstr?/:page?')
             skipNo = req.params.page*10;
         }
         console.log("跳过 : " + skipNo)
-        
+        let CREF='https://cse.google.com/cse/publicurl?cx=003345433584895644800:yvh2g3fh0mi';
         let SEARCH = req.params.sstr;
-        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY ,start:skipNo}, function (err, resp) {
+        customsearch.cse.list({ cref: CREF, cx:CX, q: SEARCH, start:skipNo, searchType:"image"}, function (err, resp) {
             if (err) {
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题"
@@ -73,28 +73,6 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 })));
             }
         });
-
-        /*
-        bing.images(req.params.sstr,
-            {top: 10,skip: skipNo},
-            function(err, results) {
-            if (err) {
-                console.log("Bing查询出错:"+JSON.stringify(err));
-                errobj["error"]="Bing查询出错"
-                errobj["err"]=err;
-                res.end(JSON.stringify(errobj),"utf-8");
-                return;
-                //throw(err);
-            }
-
-                res.end(JSON.stringify(results.map(function(doc){
-                var newDoc ={"context":doc.sourceUrl, "thumbnail":doc.thumbnail.url,"snippet":doc.title, "url":doc.url}
-                return newDoc;
-                })));
-            }
-        );
-        //*/
-        //res.end("插入数据OK");
     };
 });
 
