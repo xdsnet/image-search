@@ -3,17 +3,15 @@ var fs = require('fs');
 var read = fs.readFileSync;
 var ejs = require("ejs");
 var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
-    Bing = require('bing.search'),
+    Google = require('googleapis'),
     util = require('util');
-
+var customsearch = Google.customsearch('v1');
+        const CX = process.env.GOOGLE_CX;
+        const API_KEY = process.env.GOOGLE_KEY;
 
 var errobj={};
 
 module.exports = function(app) {
-
-
-var bing = new Bing(process.env.BING_ACC_KEY,50,true);
-
 
   //根路径处理
     app.route('/')
@@ -56,14 +54,39 @@ app.route('/api/imagesearch/:sstr?/:page?')
             skipNo = req.params.page*10;
         }
         console.log("跳过 : " + skipNo)
-        //*
+        
+        let SEARCH = req.params.sstr;
+        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY ,start:skipNo}, function (err, resp) {
+            if (err) {
+                console.log('搜索出现问题', err);
+                errobj["error"]="搜索出现问题"
+                res.end(JSON.stringify(errobj),"utf-8");
+                return;
+            }
+            // Got the response from custom search
+            console.log('Result: ' + resp.searchInformation.formattedTotalResults);
+            if (resp.items && resp.items.length > 0) {
+                console.log('First result name is ' + resp.items[0].title);
+                 res.end(JSON.stringify(resp.items.map(function(doc){
+                var newDoc ={"context":doc.image.contextLink, "thumbnail":doc.image.thumbnailLink,"snippet":doc.title, "url":doc.link}
+                return newDoc;
+                })));
+            }
+        });
+
+        /*
         bing.images(req.params.sstr,
             {top: 10,skip: skipNo},
             function(err, results) {
             if (err) {
                 console.log("Bing查询出错:"+JSON.stringify(err));
+                errobj["error"]="Bing查询出错"
+                errobj["err"]=err;
+                res.end(JSON.stringify(errobj),"utf-8");
+                return;
                 //throw(err);
             }
+
                 res.end(JSON.stringify(results.map(function(doc){
                 var newDoc ={"context":doc.sourceUrl, "thumbnail":doc.thumbnail.url,"snippet":doc.title, "url":doc.url}
                 return newDoc;

@@ -21,10 +21,10 @@
   },
   "homepage": "https://github.com/xdsnet/image-search#readme",
   "dependencies": {
-    "bing.search": "^1.0.1",
     "dotenv": "^2.0.0",
     "ejs": "^2.5.5",
     "express": "^4.14.0",
+    "googleapis": "^15.0.0",
     "pg": "6.1.2"
   },
   "engines": {
