@@ -61,7 +61,6 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题";
                 errobj["err"]=err;
-                errobj["sss"]={ cref: CREF, cx:CX, q: SEARCH, auth:API_KEY, start:skipNo, searchType:"image"};
                 res.end(JSON.stringify(errobj),"utf-8");
                 return;
             }
