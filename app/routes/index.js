@@ -59,7 +59,8 @@ app.route('/api/imagesearch/:sstr?/:page?')
         customsearch.cse.list({ cref: CREF, cx:CX, q: SEARCH, start:skipNo, searchType:"image"}, function (err, resp) {
             if (err) {
                 console.log('搜索出现问题', err);
-                errobj["error"]="搜索出现问题"
+                errobj["error"]="搜索出现问题";
+                errobj["err"]=err;
                 res.end(JSON.stringify(errobj),"utf-8");
                 return;
             }
