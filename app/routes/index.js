@@ -58,7 +58,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
         //*
-        let qpath='/cse/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
+        let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
         let options = {
             hostname: 'cse.google.com',
             port: 443,
