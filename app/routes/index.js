@@ -58,9 +58,10 @@ app.route('/api/imagesearch/:sstr?/:page?')
         let SEARCH = req.params.sstr;
         customsearch.cse.list({ cx:CX, q: SEARCH, auth:API_KEY, start:skipNo, searchType:"image"}, function (err, resp) {
             if (err) {
+                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY, start:skipNo, searchType:"image"}
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题";
-                errobj["err"]=err;
+                //errobj["err"]=err;
                 res.end(JSON.stringify(errobj),"utf-8");
                 return;
             }
