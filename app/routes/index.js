@@ -10,7 +10,8 @@ var customsearch = Google.customsearch('v1');
         const API_KEY = process.env.GOOGLE_KEY;
 
 var errobj={};
-var request=require('request');
+var https=require('https');
+
 
 module.exports = function(app) {
 
@@ -56,12 +57,22 @@ app.route('/api/imagesearch/:sstr?/:page?')
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
-        let myreqURI='https://www.googleapis.com/customsearch/v1'+"?cx="+CX+"&key="+API_KEY+"&q="+SEARCH+"&start="+skipNo;
-        request(myreqURI,function(error,response,body){
-            if (!error && response.statusCode == 200) {
-                console.log(body) // IT笔录主页的HTML
-                res.end("ok");
-            }
+        let qpath='/customsearch/v1'+"?cx="+CX+"&key="+API_KEY+"&q="+SEARCH+"&start="+skipNo;
+
+        let options = {
+            hostname: 'www.googleapis.com',
+            port: 443,
+            path: qpath,
+            method: 'GET'
+        };
+
+        https.request(options,function(response){
+            console.log('statusCode:', response.statusCode);
+            console.log('headers:', response.headers);
+
+            response.on('data', function(d){
+                res.end(JSON.stringify(d),"utf-8");
+            });
         });
         /*
         customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY }, function (err, resp) {
