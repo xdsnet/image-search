@@ -57,7 +57,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
-        //*
+        /*
         let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
         let options = {
             hostname: 'cse.google.com',
@@ -80,7 +80,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
             console.log('搜索出错:'+JSON.stringify(e));
         });
         //*/
-        /*
+        //*
         customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY,start:skipNo }, function (err, resp) {
             if (err) {
                 err["test"]={ cx:CX, q: SEARCH, auth:API_KEY ,start:skipNo }
