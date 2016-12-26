@@ -71,6 +71,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
             console.log('headers:', response.headers);
 
             response.on('data', function(d){
+                console.log('data:'+d);
                 res.end(JSON.stringify(d),"utf-8");
             });
         });
