@@ -57,8 +57,8 @@ app.route('/api/imagesearch/:sstr?/:page?')
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
+        /*
         let qpath='/customsearch/v1'+"?cx="+CX+"&key="+API_KEY+"&q="+SEARCH+"&start="+skipNo;
-
         let options = {
             hostname: 'www.googleapis.com',
             port: 443,
@@ -79,10 +79,11 @@ app.route('/api/imagesearch/:sstr?/:page?')
         areq.on("error",function(e){
             console.log('搜索出错:'+JSON.stringify(e));
         });
-        /*
-        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY }, function (err, resp) {
+        //*/
+        //*
+        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY,start:skipNo }, function (err, resp) {
             if (err) {
-                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY}
+                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY ,start:skipNo }
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题";
                 //errobj["err"]=err;
