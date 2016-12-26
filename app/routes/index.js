@@ -56,9 +56,9 @@ app.route('/api/imagesearch/:sstr?/:page?')
         console.log("跳过 : " + skipNo)
         //let CREF='https://cse.google.com/cse/publicurl?cx=003345433584895644800:yvh2g3fh0mi';
         let SEARCH = req.params.sstr;
-        customsearch.cse.list({ cx:CX, q: SEARCH, auth:API_KEY,  searchType:"image"}, function (err, resp) {
+        customsearch.cse.list({ cx:CX, q: SEARCH, auth:API_KEY, siteSearch:"global", searchType:"image"}, function (err, resp) {
             if (err) {
-                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY,  searchType:"image"}
+                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY,  siteSearch:"global", searchType:"image"}
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题";
                 //errobj["err"]=err;
