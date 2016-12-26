@@ -66,13 +66,17 @@ app.route('/api/imagesearch/:sstr?/:page?')
             method: 'GET'
         };
 
-        https.request(options,function(response){
+        var areq=https.request(options,function(response){
             console.log('statusCode:', response.statusCode);
             console.log('headers:', response.headers);
 
             response.on('data', function(d){
                 res.end(JSON.stringify(d),"utf-8");
             });
+        });
+        areq.end();
+        areq.on("error",function(e){
+            console.log('搜索出错:'+JSON.stringify(e));
         });
         /*
         customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY }, function (err, resp) {
