@@ -54,18 +54,17 @@ app.route('/api/imagesearch/:sstr?/:page?')
             skipNo = req.params.page*10;
         }
         console.log("跳过 : " + skipNo)
-        //let CREF='https://cse.google.com/cse/publicurl?cx=003345433584895644800:yvh2g3fh0mi';
         let SEARCH = req.params.sstr;
-        customsearch.cse.list({ cx:CX, q: SEARCH, auth:API_KEY,key:API_KEY}, function (err, resp) {
+        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY }, function (err, resp) {
             if (err) {
-                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY,key:API_KEY}
+                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY}
                 console.log('搜索出现问题', err);
                 errobj["error"]="搜索出现问题";
                 //errobj["err"]=err;
                 res.end(JSON.stringify(errobj),"utf-8");
                 return;
             }
-            // Got the response from custom search
+            
             console.log('Result: ' + resp.searchInformation.formattedTotalResults);
             if (resp.items && resp.items.length > 0) {
                 console.log('First result name is ' + resp.items[0].title);
