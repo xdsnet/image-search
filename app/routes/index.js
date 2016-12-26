@@ -60,7 +60,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         //*
         let qpath='/cse/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
         let options = {
-            hostname: 'https://cse.google.com',
+            hostname: 'cse.google.com',
             port: 443,
             path: qpath,
             method: 'GET'
