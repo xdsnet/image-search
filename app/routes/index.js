@@ -10,7 +10,7 @@ var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
         const API_KEY = process.env.GOOGLE_KEY;
 
 var errobj={};
-var require=require('request');
+var request=require('request');
 
 //const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
 
