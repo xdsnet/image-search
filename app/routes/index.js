@@ -3,14 +3,16 @@ var fs = require('fs');
 var read = fs.readFileSync;
 var ejs = require("ejs");
 var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
-    Google = require('googleapis'),
+ //   Google = require('googleapis'),
     util = require('util');
-var customsearch = Google.customsearch('v1');
+//var customsearch = Google.customsearch('v1');
         const CX = process.env.GOOGLE_CX;
         const API_KEY = process.env.GOOGLE_KEY;
 
 var errobj={};
 var https=require('https');
+const ImagesClient = require("google-images");
+let client = new ImagesClient(CX,API_KEY);
 
 
 module.exports = function(app) {
@@ -52,11 +54,18 @@ app.route('/api/imagesearch/:sstr?/:page?')
             });
         //利用bing搜索图片
         var skipNo = 0;
+        let page=req.params.page||0;
         if (req.params.page){
             skipNo = req.params.page*10;
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
+        client.search(SEARCH,{page:page}).then(function(images){
+             res.end(JSON.stringify(images.map(function(doc){
+                var newDoc ={"context":doc.image.contextLink, "thumbnail":doc.image.thumbnailLink,"snippet":doc.title, "url":doc.link}
+                return newDoc;
+            })));
+        });
         /*
         let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
         let options = {
@@ -80,7 +89,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
             console.log('搜索出错:'+JSON.stringify(e));
         });
         //*/
-        //*
+        /*
         customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY,start:skipNo,searchType:"image" }, function (err, resp) {
             if (err) {
                 err["test"]={ cx:CX, q: SEARCH, auth:API_KEY ,start:skipNo, searchType:"image"}
