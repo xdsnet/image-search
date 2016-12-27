@@ -146,7 +146,8 @@ app.route('/api/imagesearch/:sstr?/:page?')
 
 app.route('/favicon.ico')
     .get(function(req,res){
-
+    res.statusCode = 400;
+    res.send('no found!');
 });
 
 app.route('/api/latest')
