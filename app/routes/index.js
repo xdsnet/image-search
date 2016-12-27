@@ -53,7 +53,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
                     }
                 });
             });
-        //利用bing搜索图片
+        //利用google搜索图片
         var skipNo = 0;
         let page=req.params.page||0;
         if (req.params.page){
@@ -90,63 +90,6 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 res.end(JSON.stringify(errobj),"utf-8");
             }
         });
-        /*
-        client.search(SEARCH,{page:page}).then(function(images){
-             res.end(JSON.stringify(images.map(function(doc){
-                var newDoc ={"context":doc.url, "thumbnail":doc.thumbnail.url,"snippet":doc.title, "url":doc.link}
-                return newDoc;
-            }))).catch(function(err){
-                console.log('搜索出现问题', err);
-                errobj["error"]="搜索出现问题";
-                //errobj["err"]=err;
-                res.end(JSON.stringify(errobj),"utf-8");
-            });
-        });
-        //*/
-        /*
-        let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
-        let options = {
-            hostname: 'cse.google.com',
-            port: 443,
-            path: qpath,
-            method: 'GET'
-        };
-
-        var areq=https.request(options,function(response){
-            console.log('statusCode:', response.statusCode);
-            console.log('headers:', response.headers);
-
-            response.on('data', function(d){
-                console.log('data:'+d);
-                res.end(JSON.stringify(d),"utf-8");
-            });
-        });
-        areq.end();
-        areq.on("error",function(e){
-            console.log('搜索出错:'+JSON.stringify(e));
-        });
-        //*/
-        /*
-        customsearch.cse.list({ cx: CX, q: SEARCH, auth: API_KEY,start:skipNo,searchType:"image" }, function (err, resp) {
-            if (err) {
-                err["test"]={ cx:CX, q: SEARCH, auth:API_KEY ,start:skipNo, searchType:"image"}
-                console.log('搜索出现问题', err);
-                errobj["error"]="搜索出现问题";
-                //errobj["err"]=err;
-                res.end(JSON.stringify(errobj),"utf-8");
-                return;
-            }
-            
-            console.log('Result: ' + resp.searchInformation.formattedTotalResults);
-            if (resp.items && resp.items.length > 0) {
-                console.log('First result name is ' + resp.items[0].title);
-                 res.end(JSON.stringify(resp.items.map(function(doc){
-                var newDoc ={"context":doc.image.contextLink, "thumbnail":doc.image.thumbnailLink,"snippet":doc.title, "url":doc.link}
-                return newDoc;
-                })));
-            }
-        });
-        //*/
     };
 });
 
