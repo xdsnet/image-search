@@ -14,7 +14,7 @@ var request=require('request');
 
 //const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
 
-
+var imageSearch = require('node-google-image-search');
 
 module.exports = function(app) {
 
@@ -55,19 +55,31 @@ app.route('/api/imagesearch/:sstr?/:page?')
             });
         //利用google搜索图片
         var skipNo = 0;
-        let page=req.params.page||0;
+        let page=req.params.page?parseInt(req.params.page):0;
         if (req.params.page){
-            skipNo = req.params.page*10;
+            skipNo = page*10;
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
+
+        console.log("suri="+searchURI);
+        imageSearch(SEARCH, function(results) {
+            res.json(results.map( function(e) {
+                return {'url': e.link,
+                        'alt-text': e.snippet,
+                        'thumbnail': e.image.thumbnailLink,
+                        'context': e.image.contextLink
+                    };
+                }));
+        }, skipNo, skipNo + 10)
+
+        /*
         let searchURI="https://www.googleapis.com/customsearch/v1?googlehost=google.com&safe=medium&searchType=image&key="
             +API_KEY
             +"&cx="+CX
             +"&q="+SEARCH
             +"&start="+page
             +"&num=10";
-        console.log("suri="+searchURI);
         request(searchURI,{json:true},function(error,response,data){
             if(!error && response.statusCode == 200) {
             var newData = data.items.map(function (item) {
@@ -90,6 +102,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 res.end(JSON.stringify(errobj),"utf-8");
             }
         });
+        //*/
     };
 });
 
