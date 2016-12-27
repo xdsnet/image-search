@@ -10,10 +10,10 @@ var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
         const API_KEY = process.env.GOOGLE_KEY;
 
 var errobj={};
-var https=require('https');
+var require=require('request');
 
-const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
-let client = new ImagesClient(CX,API_KEY);
+//const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
+
 
 
 module.exports = function(app) {
@@ -61,6 +61,30 @@ app.route('/api/imagesearch/:sstr?/:page?')
         }
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
+        let searchURI="https://www.googleapis.com/customsearch/v1?googlehost=google.com&safe=medium&searchType=image&key="
+            +API_KEY
+            +"&cx="+CX
+            +"&q="+SEARCH
+            +"&start="+page
+            +"&num=10";
+        request(searchURI,{json:true},function(error,response,data){
+            if(!error && response.statusCode == 200) {
+            var newData = data.items.map(function (item) {
+              return {
+                url: item.link,
+                snippet: item.snippet,
+                thumbnail: item.image.thumbnailLink,
+                context: item.image.contextLink
+                };
+              });
+            res.end(JSON.stringify(newData));
+            }else{
+                console.log('搜索出现问题', err);
+                errobj["error"]="搜索出现问题";
+                res.end(JSON.stringify(errobj),"utf-8");
+            }
+        });
+        /*
         client.search(SEARCH,{page:page}).then(function(images){
              res.end(JSON.stringify(images.map(function(doc){
                 var newDoc ={"context":doc.url, "thumbnail":doc.thumbnail.url,"snippet":doc.title, "url":doc.link}
@@ -72,6 +96,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 res.end(JSON.stringify(errobj),"utf-8");
             });
         });
+        //*/
         /*
         let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
         let options = {
@@ -117,6 +142,11 @@ app.route('/api/imagesearch/:sstr?/:page?')
         });
         //*/
     };
+});
+
+app.route('/favicon.ico')
+    .get(function(req,res){
+
 });
 
 app.route('/api/latest')
