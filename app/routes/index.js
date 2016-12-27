@@ -11,7 +11,8 @@ var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
 
 var errobj={};
 var https=require('https');
-const ImagesClient = require("google-images");
+
+const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
 let client = new ImagesClient(CX,API_KEY);
 
 
@@ -62,9 +63,14 @@ app.route('/api/imagesearch/:sstr?/:page?')
         let SEARCH = req.params.sstr;
         client.search(SEARCH,{page:page}).then(function(images){
              res.end(JSON.stringify(images.map(function(doc){
-                var newDoc ={"context":doc.image.contextLink, "thumbnail":doc.image.thumbnailLink,"snippet":doc.title, "url":doc.link}
+                var newDoc ={"context":doc.url, "thumbnail":doc.thumbnail.url,"snippet":doc.title, "url":doc.link}
                 return newDoc;
-            })));
+            }))).catch(function(err){
+                console.log('搜索出现问题', err);
+                errobj["error"]="搜索出现问题";
+                //errobj["err"]=err;
+                res.end(JSON.stringify(errobj),"utf-8");
+            });
         });
         /*
         let qpath='/publicurl'+"?cx="+CX+"&q="+SEARCH+"&start="+skipNo;
