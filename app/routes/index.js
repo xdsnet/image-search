@@ -4,13 +4,9 @@ var read = fs.readFileSync;
 var ejs = require("ejs");
 var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
     util = require('util');
-const CX = process.env.CSE_ID;
-const API_KEY = process.env.CSE_API_KEY;
-
 var errobj={};
-var request=require('request');
 
-//var imageSearch = require('node-google-image-search');
+var imageSearch = require('node-google-image-search');
 
 module.exports = function(app) {
 
@@ -58,7 +54,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
 
-        /*
+        //*
         imageSearch(SEARCH, function(results) {
             console.log(JSON.stringify(results));
             res.json(results.map( function(e) {
@@ -69,36 +65,6 @@ app.route('/api/imagesearch/:sstr?/:page?')
                     };
                 }));
         }, skipNo, skipNo + 10)
-        //*/
-        //*
-        let searchURI="https://www.googleapis.com/customsearch/v1?googlehost=google.com&safe=medium&searchType=image&key="
-            +API_KEY
-            +"&cx="+CX
-            +"&q="+SEARCH
-            +"&start="+page
-            +"&num=10";
-        request(searchURI,{json:true},function(error,response,data){
-            if(!error && response.statusCode == 200) {
-            var newData = data.items.map(function (item) {
-              return {
-                url: item.link,
-                snippet: item.snippet,
-                thumbnail: item.image.thumbnailLink,
-                context: item.image.contextLink
-                };
-              });
-            res.end(JSON.stringify(newData));
-            }else if(error){
-                console.log('搜索出现问题', error);
-                errobj["error"]="搜索出现问题";
-                res.end(JSON.stringify(errobj),"utf-8");
-            }else{
-                console.log('搜索出现其他问题1', response);
-                console.log('搜索出现其他问题2', data);
-                errobj["error"]="搜索出现其他问题";
-                res.end(JSON.stringify(errobj),"utf-8");
-            }
-        });
         //*/
     };
 });
