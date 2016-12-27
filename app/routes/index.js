@@ -62,7 +62,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
 
-        console.log("suri="+searchURI);
+        //console.log("suri="+SEARCH);
         imageSearch(SEARCH, function(results) {
             res.json(results.map( function(e) {
                 return {'url': e.link,
