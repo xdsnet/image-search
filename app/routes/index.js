@@ -3,18 +3,14 @@ var fs = require('fs');
 var read = fs.readFileSync;
 var ejs = require("ejs");
 var SearchRec = require(process.cwd() + '/app/model/searchrec.js'),
- //   Google = require('googleapis'),
     util = require('util');
-//var customsearch = Google.customsearch('v1');
-        const CX = process.env.GOOGLE_CX;
-        const API_KEY = process.env.GOOGLE_KEY;
+const CX = process.env.CSE_ID;
+const API_KEY = process.env.CSE_API_KEY;
 
 var errobj={};
 var request=require('request');
 
-//const ImagesClient = require(process.cwd() + '/app/modules/mygoogle-images.js')
-
-var imageSearch = require('node-google-image-search');
+//var imageSearch = require('node-google-image-search');
 
 module.exports = function(app) {
 
@@ -62,7 +58,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
         console.log("跳过 : " + skipNo)
         let SEARCH = req.params.sstr;
 
-        //console.log("suri="+SEARCH);
+        /*
         imageSearch(SEARCH, function(results) {
             console.log(JSON.stringify(results));
             res.json(results.map( function(e) {
@@ -73,8 +69,8 @@ app.route('/api/imagesearch/:sstr?/:page?')
                     };
                 }));
         }, skipNo, skipNo + 10)
-
-        /*
+        //*/
+        //*
         let searchURI="https://www.googleapis.com/customsearch/v1?googlehost=google.com&safe=medium&searchType=image&key="
             +API_KEY
             +"&cx="+CX
