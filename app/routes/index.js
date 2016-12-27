@@ -79,7 +79,8 @@ app.route('/api/imagesearch/:sstr?/:page?')
               });
             res.end(JSON.stringify(newData));
             }else{
-                console.log('搜索出现问题', err);
+                var errobj={};
+                console.log('搜索出现问题', error);
                 errobj["error"]="搜索出现问题";
                 res.end(JSON.stringify(errobj),"utf-8");
             }
