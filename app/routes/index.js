@@ -67,6 +67,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
             +"&q="+SEARCH
             +"&start="+page
             +"&num=10";
+        console.log("suri="+searchURI);
         request(searchURI,{json:true},function(error,response,data){
             if(!error && response.statusCode == 200) {
             var newData = data.items.map(function (item) {
@@ -78,10 +79,14 @@ app.route('/api/imagesearch/:sstr?/:page?')
                 };
               });
             res.end(JSON.stringify(newData));
-            }else{
-                var errobj={};
+            }else if(error){
                 console.log('搜索出现问题', error);
                 errobj["error"]="搜索出现问题";
+                res.end(JSON.stringify(errobj),"utf-8");
+            }else{
+                console.log('搜索出现其他问题1', response);
+                console.log('搜索出现其他问题2', data);
+                errobj["error"]="搜索出现其他问题";
                 res.end(JSON.stringify(errobj),"utf-8");
             }
         });
@@ -147,7 +152,7 @@ app.route('/api/imagesearch/:sstr?/:page?')
 
 app.route('/favicon.ico')
     .get(function(req,res){
-    res.statusCode = 400;
+    res.statusCode = 404;
     res.send('no found!');
 });
 
